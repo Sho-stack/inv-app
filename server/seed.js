@@ -1,29 +1,20 @@
-const {pages, users, tags} = require('./seedData.js');
+const { User } = require('./models/index');
+const { Sequelize, db } = require('./db')
 
-const {sequelize} = require('./db');
-const {Page, User, Tag} = require('./models');
+const users = [
+  { name: 'John Doe', email: 'johndoe@example.com', password: 'password', role: 'user' },
+  { name: 'Jane Smith', email: 'janesmith@example.com', password: 'password', role: 'admin' },
+  { name: 'Bob Johnson', email: 'bobjohnson@example.com', password: 'password', role: 'user' }
+];
 
-const seed = async () => {
-
-    try {
-        // drop and recreate tables per model definitions
-        await sequelize.sync({ force: true });
-    
-        // insert data
-        await Promise.all(users.map(user => User.create(user)));
-        const createdPages = await Promise.all(pages.map(page => Page.create(page)));
-        const createdTags = await Promise.all(tags.map(tag => Tag.create(tag)));
-
-        // associate data
-        createdPages[0].addTags([createdTags[1]]);
-        createdPages[1].addTags([createdTags[0]]);
-        createdPages[2].addTags([createdTags[1], createdTags[2]]);
-        createdPages[3].addTags([createdTags[2],createdTags[3]]);
-
-        console.log("db populated!");
-    } catch (error) {
-        console.error(error);
-    }
+async function seed() {
+  try {
+    await db.sync({ force: true });
+    await User.bulkCreate(users);
+    console.log('Users seeded successfully!');
+  } catch (err) {
+    console.error('Error seeding users:', err);
+  }
 }
 
 seed();
