@@ -3,7 +3,21 @@ import { Card, ListGroup } from 'react-bootstrap';
 
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 
-export const ItemList = ({ allItems, allCategories }) => {
+export const ItemList = ({ allItems, allCategories, setAllItems, apiURL }) => {
+
+    const handleDelete = (id) => {
+        fetch(`${apiURL}/items/${id}`, {
+            method: 'DELETE',
+          })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const updatedItems = allItems.filter((item) => item.id !== id);
+                setAllItems(updatedItems);
+            })
+            .catch(error => console.error(error));
+        }
+
 
     return <>
         {allItems.map((item) => { 
@@ -24,7 +38,7 @@ export const ItemList = ({ allItems, allCategories }) => {
                 </ListGroup>
                 <Card.Body>
                     <Card.Link href="#">Card Link</Card.Link>
-                    <Card.Link href="#">Another Link</Card.Link>
+                    <Button variant="danger" onClick={() => handleDelete(item.id)}>DELETE</Button>
                 </Card.Body>
             </Card>
         </>

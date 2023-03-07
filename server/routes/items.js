@@ -16,6 +16,13 @@ router.post("/", async (req, res) => {
     res.send(item);
 });
 
+router.delete("/:id", async (req, res) => {
+    const item = await Item.findByPk(req.params.id);
+    await item.destroy();
+    res.send(item);
+});
+
+
 
 
 module.exports = router;

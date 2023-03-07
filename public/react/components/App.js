@@ -11,16 +11,6 @@ export const App = () => {
 const [allItems, setAllItems] = useState([]);
 const [allCategories, setAllCategories] = useState([]);
 
-
-
-
-
-// ADD ITEM MODAL CONTROLS
-
-
-
-
-
 {/* MODAL CONTROLS */}
 const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
@@ -40,7 +30,7 @@ useEffect(() => {
 		.then((data) => {
 			setAllItems(data);
 		});
-}, [allItems]);
+}, []);
 
 
 
@@ -60,8 +50,8 @@ useEffect(() => {
 			</Container>
 		</Navbar>
 		<main>	
-			<ItemList  allItems={allItems} allCategories={allCategories}/>			
+			<ItemList  allItems={allItems} allCategories={allCategories} setAllItems={setAllItems} apiURL={apiURL}/>			
 		</main>
-		<AddItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems}/> 
+			<AddItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems}/> 
 
 </>)}
