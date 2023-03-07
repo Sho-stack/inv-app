@@ -4,12 +4,11 @@ import { Card, ListGroup } from 'react-bootstrap';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 
 export const ItemList = ({ allItems, allCategories }) => {
-    console.log(allItems)
 
     return <>
         {allItems.map((item) => { 
         return <>
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '18rem' }} key={item.id}>
                 <Card.Img variant="top" src={item.image} />
                 <Card.Body>
                     <Card.Title>
