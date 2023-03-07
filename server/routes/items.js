@@ -22,6 +22,12 @@ router.delete("/:id", async (req, res) => {
     res.send(item);
 });
 
+router.put("/:id", async (req, res) => {
+    const item = await Item.findByPk(req.params.id);
+    await item.update(req.body);
+    res.send(item);
+});
+
 
 
 

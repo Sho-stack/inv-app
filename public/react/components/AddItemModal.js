@@ -1,50 +1,64 @@
-
 import React, { useState, useEffect } from 'react';
-import { Card, ListGroup, Container, Navbar, Nav, Button, Modal, Form,  } from 'react-bootstrap';
+import { Card, ListGroup, Container, Navbar, Nav, Button, Modal, Form } from 'react-bootstrap';
 
-
-import { Container, Navbar, Nav, Button } from 'react-bootstrap';
-
-export const AddItemModal = ({ allItems, allCategories, show, handleClose, apiURL }) => {
+export const AddItemModal = ({ allItems, allCategories, show, handleClose, apiURL, setAllItems, item }) => {
     
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [image, setImage] = useState('');
-    const [categoryId, setCategoryId] = useState('1');
+    const [categoryId, setCategoryId] = useState('');
+
+
+    useEffect(() => {
+        if (item) {
+            setName(item.name);
+            setDescription(item.description);
+            setPrice(item.price);
+            setImage(item.image);
+            setCategoryId(item.categoryId);
+        } else {
+            setCategoryId(allCategories[0]);
+        }
+    }, [item, allCategories]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
     
         const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name,
-            description: description,
-            price: price,
-            image: image,
-            categoryId:  parseInt(categoryId)
-          })
+            method: item ? 'PUT' : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name,
+                description,
+                price,
+                image,
+                categoryId: parseInt(categoryId),
+            }),
         };
     
-        console.log(requestOptions.body)
+        const url = item ? `${apiURL}/items/${item.id}` : `${apiURL}/items`;
     
-        fetch(`${apiURL}/items/`, requestOptions)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            handleClose();
-            // add new item to state
-            setAllItems([...allItems, data]);
-          })
-          .catch(error => console.log(error));
-      };
+        fetch(url, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                handleClose();
+                // update or add item to state
+                if (item) {
+                    const updatedItems = allItems.map((i) => (i.id === data.id ? data : i));
+                    setAllItems(updatedItems);
+                } else {
+                    setAllItems([...allItems, data]);
+                }
+            })
+            .catch((error) => console.log(error));
+    };
 
-      return (
+    return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add new Item</Modal.Title>
+                <Modal.Title>{item ? 'Edit Item' : 'Add new Item'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -106,7 +120,7 @@ export const AddItemModal = ({ allItems, allCategories, show, handleClose, apiUR
                             Close
                         </Button>
                         <Button variant="primary" type="submit">
-                            Add Item
+                            {item ? 'Update Item' : 'Add Item'}
                         </Button>
                     </Modal.Footer>
                 </Form>

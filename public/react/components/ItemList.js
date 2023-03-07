@@ -3,7 +3,7 @@ import { Card, ListGroup } from 'react-bootstrap';
 
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 
-export const ItemList = ({ allItems, allCategories, setAllItems, apiURL }) => {
+export const ItemList = ({ allItems, allCategories, setAllItems, apiURL, setItem, handleEdit }) => {
 
     const handleDelete = (id) => {
         fetch(`${apiURL}/items/${id}`, {
@@ -17,6 +17,7 @@ export const ItemList = ({ allItems, allCategories, setAllItems, apiURL }) => {
             })
             .catch(error => console.error(error));
         }
+
 
 
     return <>
@@ -37,7 +38,7 @@ export const ItemList = ({ allItems, allCategories, setAllItems, apiURL }) => {
                     <ListGroup.Item>{allCategories.find(category => category.id.toString() === item.categoryId.toString())?.name}</ListGroup.Item>
                 </ListGroup>
                 <Card.Body>
-                    <Card.Link href="#">Card Link</Card.Link>
+                    <Button variant="primary" onClick={() => handleEdit(item)}>EDIT</Button>
                     <Button variant="danger" onClick={() => handleDelete(item.id)}>DELETE</Button>
                 </Card.Body>
             </Card>
