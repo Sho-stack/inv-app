@@ -8,10 +8,14 @@ router.get("/", async (req, res, next) => {
     res.send(items);
 });
 
-// GET /users/:userId
-router.get("/:userId", async (req, res) => {
-    const user = await User.findByPk(req.params.userId);
-    res.send(user);
+
+
+router.post("/", async (req, res) => {
+    console.log(req.body)
+    const item = await Item.create(req.body);
+    res.send(item);
 });
+
+
 
 module.exports = router;
