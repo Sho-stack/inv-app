@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, ListGroup, Container, Navbar, Nav, Button } from 'react-bootstrap';
+import { Card, ListGroup, Container, Navbar, Nav, Button, Modal, Form,  } from 'react-bootstrap';
+import { ItemList } from './ItemList';
 
 // import and prepend the api url to any fetch calls
 import apiURL from '../api';
@@ -8,6 +9,11 @@ export const App = () => {
 
 const [allItems, setAllItems] = useState([]);
 const [allCategories, setAllCategories] = useState([]);
+
+{/* MODAL CONTROLS */}
+const [show, setShow] = useState(false);
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
 
 useEffect(() => {
 	fetch(`${apiURL}/categories`)
@@ -25,19 +31,16 @@ useEffect(() => {
 		});
 }, []);
 
-console.log(allCategories)
 
 
 
 
 	return (<>
-	
-
 		<Navbar bg="dark" variant="dark">
 			<Container>
-			<Navbar.Brand href="#home">Inv-manager</Navbar.Brand>
+			<Navbar.Brand >Inv-manager</Navbar.Brand>
 			<Nav className="me-auto">
-				<Nav.Link href="#home">Home</Nav.Link>
+				<Nav.Link href="#home">Add new</Nav.Link>
 				{/* <Nav.Link href="#features">Features</Nav.Link>
 				<Nav.Link href="#pricing">Pricing</Nav.Link> */}
 			</Nav>
@@ -46,30 +49,45 @@ console.log(allCategories)
 
 		</Navbar>
 		<main>	
-
-		{allItems.map((item) => { return<>
-		<Card style={{ width: '18rem' }}>
-		<Card.Img variant="top" src={item.image} />
-		<Card.Body>
-			<Card.Title>
-				{item.name}
-			</Card.Title>
-			<Card.Text>
-				{item.description}
-			</Card.Text>
-		</Card.Body>
-		<ListGroup className="list-group-flush">
-			<ListGroup.Item>{item.price}</ListGroup.Item>
-			<ListGroup.Item>{allCategories.find(category => category.id.toString() === item.categoryId.toString())?.name}</ListGroup.Item>
-		</ListGroup>
-		<Card.Body>
-			<Card.Link href="#">Card Link</Card.Link>
-			<Card.Link href="#">Another Link</Card.Link>
-		</Card.Body>
-	</Card>
-	</>
-	}
-		)}
-		
+		<Button variant="primary" onClick={handleShow}>
+        Launch demo modal
+      </Button>
+			<ItemList  allItems={allItems} allCategories={allCategories} />
 		</main>
+
+
+
+	{/* ADD ITEM MODAL */}
+		<Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Example textarea</Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
 	</>)}
