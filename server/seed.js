@@ -79,7 +79,78 @@ const categories = [
         price: 229,
         image: 'https://picsum.photos/200/150',
         categoryId: 3
+      },
+      {
+        name: 'Sony Alpha a7 III Mirrorless Camera',
+        description: 'The Sony Alpha a7 III Mirrorless Camera is a high-quality camera with excellent image quality and a wide range of features.',
+        price: 2198,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 1
+      },
+      {
+        name: 'Levi\'s 501 Original Fit Jeans',
+        description: 'The Levi\'s 501 Original Fit Jeans are a classic and versatile pair of jeans made from high-quality denim.',
+        price: 69,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 2
+      },
+      {
+        name: 'Weber Smokey Mountain Cooker Smoker',
+        description: 'The Weber Smokey Mountain Cooker Smoker is a high-quality smoker that can cook a variety of meats to perfection.',
+        price: 329,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 3
+      },
+      {
+        name: 'Apple iPad Air (4th Generation)',
+        description: 'The Apple iPad Air (4th Generation) is a powerful and versatile tablet that can handle a wide range of tasks.',
+        price: 599,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 1
+      },
+      {
+        name: 'New Balance Fresh Foam 1080v11',
+        description: 'The New Balance Fresh Foam 1080v11 is a top-of-the-line running shoe with excellent cushioning and a comfortable fit.',
+        price: 149,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 2
+      },
+      {
+        name: 'Worx Landroid M500 Robot Lawn Mower',
+        description: 'The Worx Landroid M500 Robot Lawn Mower is a high-tech lawn mower that can mow your lawn automatically.',
+        price: 999,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 3
+      },
+      {
+        name: 'Sony WH-1000XM4 Wireless Headphones',
+        description: 'The Sony WH-1000XM4 Wireless Headphones are high-quality noise-canceling headphones with excellent sound quality and a comfortable fit.',
+        price: 349,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 1
+      },
+      {
+        name: 'The North Face Resolve Jacket',
+        description: 'The North Face Resolve Jacket is a waterproof and breathable jacket that can keep you dry in even the wettest conditions.',
+        price: 99,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 2
+      },
+      {
+        name: 'Makita 18V LXT Lithium-Ion Cordless Combo Kit',
+        description: 'The Makita 18V LXT Lithium-Ion Cordless Combo Kit includes a powerful drill and impact driver, as well as two batteries and a charger.',
+        price: 379,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 3
+      },
+      {
+        name: 'Samsung Galaxy Tab S7+',
+        description: 'The Samsung Galaxy Tab S7+ is a high-quality tablet with excellent performance and a large, beautiful display.',
+        price: 849,
+        image: 'https://picsum.photos/200/150',
+        categoryId: 1
       }
+      
   ];
 
 async function seed() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Navbar, Nav, Button,} from 'react-bootstrap';
+import { Container, Navbar, Nav, Button, NavDropdown, Form } from 'react-bootstrap';
 import { ItemList } from './ItemList';
 
 // import and prepend the api url to any fetch calls
@@ -10,14 +10,21 @@ export const App = () => {
 
 const [allItems, setAllItems] = useState([]);
 const [allCategories, setAllCategories] = useState([]);
+const [allUsers, setAllUsers] = useState([]);
+const [user, setUser] = useState(null);
 const [item, setItem] = useState(null);
 
-console.log('item: ' + item)
+console.log(user)
 
 {/* MODAL CONTROLS */}
 const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
-const handleShow = () => setShow(true);
+const handleShow = () => {setShow(true);}
+
+const handleAddNewItem = () => {
+	setItem(null);
+	handleShow();
+}
 
 const handleEdit = (item) => {
 	if (item) {
@@ -25,6 +32,8 @@ const handleEdit = (item) => {
 	  setShow(true);
 	}
   }
+
+
 
 useEffect(() => {
 	fetch(`${apiURL}/categories`)
@@ -42,26 +51,54 @@ useEffect(() => {
 		});
 }, []);
 
+useEffect(() => {
+	fetch(`${apiURL}/users`)
+		.then((response) => response.json())
+		.then((data) => {
+			setAllUsers(data);
+			setUser(allUsers[0])
+		});
+}, []);
+
+console.log(allUsers)
 
 
 
-	return (<>
-		<Navbar bg="dark" variant="dark">
-			<Container>
-			<Navbar.Brand >INVENTORY MANAGER</Navbar.Brand>
-			<Nav className="me-auto">
-				{/* <Nav.Link href="#home">Add new</Nav.Link> */}
-				<Button variant="outline-light" onClick={handleShow}>
-					Add new Item
-				</Button>
-				{/* <Nav.Link href="#features">Features</Nav.Link>
-				<Nav.Link href="#pricing">Pricing</Nav.Link> */}
+
+return (<>
+
+	<Navbar variant="dark" bg="dark text-light" expand="md">
+		<Container fluid>
+			<Navbar.Brand href="#home">INVENTORY MANAGER</Navbar.Brand>
+
+			<Navbar.Toggle aria-controls="navbar-dark-example" />
+			<Navbar.Collapse id="navbar-dark-example">    
+			<Button variant="outline-light" onClick={handleAddNewItem}>
+						Add new Item
+			</Button>      
+			<Nav  className="ms-auto">
+			LOGGED IN AS: &nbsp;
+			<Form.Select 
+				aria-label="Default select example" 
+				className="w-auto bg-dark text-light"
+				onChange={(e) => {setUser(e.target.value)}}
+			>
+
+				{allUsers.map((user) => {
+					return <>
+						<option value={user.id}>{user.role}</option>
+					</>
+				})}
+			</Form.Select>
 			</Nav>
-			</Container>
-		</Navbar>
-		<main>	
-			<ItemList  allItems={allItems} allCategories={allCategories} setAllItems={setAllItems} apiURL={apiURL} setItem={setItem} handleEdit={handleEdit}/>			
-		</main>
-			<AddItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems} item={item}/> 
+			</Navbar.Collapse>
+		</Container>
+    </Navbar>
+
+
+	<main>	
+		<ItemList  allItems={allItems} allCategories={allCategories} setAllItems={setAllItems} apiURL={apiURL} setItem={setItem} handleEdit={handleEdit}/>			
+	</main>
+		<AddItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems} item={item}/> 
 
 </>)}
