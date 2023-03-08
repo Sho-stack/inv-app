@@ -4,7 +4,7 @@ import { ItemList } from './ItemList';
 
 // import and prepend the api url to any fetch calls
 import apiURL from '../api';
-import { AddItemModal } from './AddItemModal';
+import { ItemModal } from './ItemModal.js';
 
 export const App = () => {
 
@@ -14,7 +14,9 @@ const [allUsers, setAllUsers] = useState([]);
 const [user, setUser] = useState(null);
 const [item, setItem] = useState(null);
 
-console.log(user)
+const [basket, setBasket] = useState([]);
+
+console.log(basket)
 
 {/* MODAL CONTROLS */}
 const [show, setShow] = useState(false);
@@ -32,6 +34,13 @@ const handleEdit = (item) => {
 	  setShow(true);
 	}
   }
+
+const handleAddToBasket = (item) => {
+	const orderItem = [item, 1];
+	if (item && !basket.some((basketItem) => basketItem[0].id === item.id)) {
+		setBasket([...basket, orderItem]);
+	  }
+}
 
 
 
@@ -76,20 +85,18 @@ return (<>
 			<Button variant="outline-light" onClick={handleAddNewItem}>
 						Add new Item
 			</Button>      
-			<Nav  className="ms-auto">
-			LOGGED IN AS: &nbsp;
-			<Form.Select 
-				aria-label="Default select example" 
-				className="w-auto bg-dark text-light"
-				onChange={(e) => {setUser(allUsers[e.target.value])}}
-			>
+			<Nav className="ms-auto">
 
-				{allUsers.map((user, index) => {
-					return <>
-				<option value={index}>{user.name}</option>
-					</>
-				})}
-			</Form.Select>
+					LOGGED IN AS: &nbsp;&nbsp;
+					<Form.Select 
+						aria-label="Default select example" 
+						className="w-auto bg-dark text-light"
+						onChange={(e) => {setUser(allUsers[e.target.value])}}
+					>
+						{allUsers.map((user, index) => {
+							return <option value={index}>{user.name} - {user.role}</option>
+						})}
+					</Form.Select>
 			</Nav>
 			</Navbar.Collapse>
 		</Container>
@@ -103,8 +110,9 @@ return (<>
 			setAllItems={setAllItems} 
 			apiURL={apiURL} 
 			handleEdit={handleEdit} 
-			user={user}/>			
+			user={user}
+			handleAddToBasket={handleAddToBasket}/>			
 	</main>
-		<AddItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems} item={item}/> 
+		<ItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems} item={item}/> 
 
 </>)}

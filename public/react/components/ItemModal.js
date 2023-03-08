@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 
-export const AddItemModal = ({ allItems, allCategories, show, handleClose, apiURL, setAllItems, item }) => {
+export const ItemModal = ({ allItems, allCategories, show, handleClose, apiURL, setAllItems, item }) => {
     
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');

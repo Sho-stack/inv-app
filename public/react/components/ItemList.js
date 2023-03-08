@@ -3,7 +3,7 @@ import { Card, ListGroup } from 'react-bootstrap';
 
 import { Container, Navbar, Nav, Button, InputGroup, Form } from 'react-bootstrap';
 
-export const ItemList = ({ allItems, allCategories, setAllItems, apiURL, handleEdit, user }) => {
+export const ItemList = ({ allItems, allCategories, setAllItems, apiURL, handleEdit, user, handleAddToBasket }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -59,7 +59,7 @@ export const ItemList = ({ allItems, allCategories, setAllItems, apiURL, handleE
                         )}
                         {user?.role === 'user' && (
                         <>
-                            <Button variant="primary">Add to Cart</Button>
+                            <Button variant="primary" onClick={() => handleAddToBasket(item)}>Add to Cart</Button>
                         </>
                         )}
                     </Card.Footer>
