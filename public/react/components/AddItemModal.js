@@ -15,7 +15,7 @@ export const AddItemModal = ({ allItems, allCategories, show, handleClose, apiUR
         setDescription(item ? item.description : '');
         setPrice(item ? item.price : '');
         setImage(item ? item.image : '');
-        setCategoryId(item ? item.categoryId : allCategories[0]);
+        setCategoryId(item ? item.categoryId : '1');
       }, [item, allCategories]);
 
     const handleSubmit = (event) => {

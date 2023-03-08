@@ -11,8 +11,10 @@ router.get("/", async (req, res, next) => {
 
 
 router.post("/", async (req, res) => {
+    console.log('req.body:')
     console.log(req.body)
     const item = await Item.create(req.body);
+    console.log(item)
     res.send(item);
 });
 

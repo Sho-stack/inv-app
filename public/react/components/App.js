@@ -56,7 +56,7 @@ useEffect(() => {
 		.then((response) => response.json())
 		.then((data) => {
 			setAllUsers(data);
-			setUser(allUsers[0])
+			setUser(data[0])
 		});
 }, []);
 
@@ -81,12 +81,12 @@ return (<>
 			<Form.Select 
 				aria-label="Default select example" 
 				className="w-auto bg-dark text-light"
-				onChange={(e) => {setUser(e.target.value)}}
+				onChange={(e) => {setUser(allUsers[e.target.value])}}
 			>
 
-				{allUsers.map((user) => {
+				{allUsers.map((user, index) => {
 					return <>
-						<option value={user.id}>{user.role}</option>
+				<option value={index}>{user.name}</option>
 					</>
 				})}
 			</Form.Select>
@@ -97,7 +97,13 @@ return (<>
 
 
 	<main>	
-		<ItemList  allItems={allItems} allCategories={allCategories} setAllItems={setAllItems} apiURL={apiURL} setItem={setItem} handleEdit={handleEdit}/>			
+		<ItemList  
+			allItems={allItems} 
+			allCategories={allCategories} 
+			setAllItems={setAllItems} 
+			apiURL={apiURL} 
+			handleEdit={handleEdit} 
+			user={user}/>			
 	</main>
 		<AddItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems} item={item}/> 
 

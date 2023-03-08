@@ -3,24 +3,22 @@ import { Card, ListGroup } from 'react-bootstrap';
 
 import { Container, Navbar, Nav, Button, InputGroup, Form } from 'react-bootstrap';
 
-export const ItemList = ({ allItems, allCategories, setAllItems, apiURL, setItem, handleEdit }) => {
+export const ItemList = ({ allItems, allCategories, setAllItems, apiURL, handleEdit, user }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleDelete = (id) => {
         fetch(`${apiURL}/items/${id}`, {
             method: 'DELETE',
-          })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                const updatedItems = allItems.filter((item) => item.id !== id);
-                setAllItems(updatedItems);
-            })
-            .catch(error => console.error(error));
-        }
-
-
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const updatedItems = allItems.filter((item) => item.id !== id);
+            setAllItems(updatedItems);
+        })
+        .catch(error => console.error(error));
+    }
 
     return <>
         <div id="item-search-input">
@@ -53,8 +51,17 @@ export const ItemList = ({ allItems, allCategories, setAllItems, apiURL, setItem
                         </Card.Text>
                     </Card.Body>
                     <Card.Footer>
-                        <Button variant="warning" onClick={() => handleEdit(item)}>EDIT</Button>
-                        <Button variant="danger" onClick={() => handleDelete(item.id)}>DELETE</Button>
+                        {user?.role === 'admin' && (
+                        <>
+                            <Button variant="warning" onClick={() => handleEdit(item)}>EDIT</Button>
+                            <Button variant="danger" onClick={() => handleDelete(item.id)}>DELETE</Button>
+                        </>
+                        )}
+                        {user?.role === 'user' && (
+                        <>
+                            <Button variant="primary">Add to Cart</Button>
+                        </>
+                        )}
                     </Card.Footer>
                 </Card>
             </>
