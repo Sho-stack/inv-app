@@ -5,6 +5,7 @@ import { ItemList } from './ItemList';
 // import and prepend the api url to any fetch calls
 import apiURL from '../api';
 import { ItemModal } from './ItemModal.js';
+import { BasketModal } from './BasketModal';
 
 export const App = () => {
 
@@ -19,19 +20,27 @@ const [basket, setBasket] = useState([]);
 console.log(basket)
 
 {/* MODAL CONTROLS */}
-const [show, setShow] = useState(false);
-const handleClose = () => setShow(false);
-const handleShow = () => {setShow(true);}
+const [showItemModal, setShowItemModal] = useState(false);
+const handleItemModalClose = () => setShowItemModal(false);
+const handleItemModalShow = () => {setShowItemModal(true);}
 
-const handleAddNewItem = () => {
+const [showBasketModal, setShowBasketModal] = useState(false);
+const handleBasketModalClose = () => setShowBasketModal(false);
+const handleBasketModalShow = () => {setShowBasketModal(true);}
+
+const openItemModal = () => {
 	setItem(null);
-	handleShow();
+	handleItemModalShow();
+}
+
+const openBasketModal = () => {
+	handleBasketModalShow();
 }
 
 const handleEdit = (item) => {
 	if (item) {
 	  setItem(item);
-	  setShow(true);
+	  setShowItemModal(true);
 	}
   }
 
@@ -82,9 +91,12 @@ return (<>
 
 			<Navbar.Toggle aria-controls="navbar-dark-example" />
 			<Navbar.Collapse id="navbar-dark-example">    
-			<Button variant="outline-light" onClick={handleAddNewItem}>
+			<Button variant="outline-light" onClick={openItemModal}>
 						Add new Item
 			</Button>      
+			<Button variant="outline-light" onClick={openBasketModal}>
+						Show Basket
+			</Button> 
 			<Nav className="ms-auto">
 
 					LOGGED IN AS: &nbsp;&nbsp;
@@ -102,6 +114,18 @@ return (<>
 		</Container>
     </Navbar>
 
+	<BasketModal 
+		basket={basket}
+		setBasket={setBasket}
+		allItems={allItems} 
+		allCategories={allCategories} 
+		show={showBasketModal} 
+		handleClose={handleBasketModalClose} 
+		apiURL={apiURL} 
+		setAllItems={setAllItems} 
+		item={item} 
+		user={user}
+		/>
 
 	<main>	
 		<ItemList  
@@ -113,6 +137,13 @@ return (<>
 			user={user}
 			handleAddToBasket={handleAddToBasket}/>			
 	</main>
-		<ItemModal   allItems={allItems} allCategories={allCategories} show={show} handleClose={handleClose} apiURL={apiURL} setAllItems={setAllItems} item={item}/> 
+		<ItemModal   
+			allItems={allItems} 
+			allCategories={allCategories} 
+			show={showItemModal} 
+			handleClose={handleItemModalClose} 
+			apiURL={apiURL} 
+			setAllItems={setAllItems} 
+			item={item}/> 
 
 </>)}

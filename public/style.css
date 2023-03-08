@@ -28,3 +28,13 @@ main {
     justify-content: space-around;
 }
 
+.nowrap {
+    white-space: nowrap;
+  }
+
+.basketModal {
+    width: 80%;
+    max-width: 800px;
+    margin:auto;
+    margin-top: 64px;
+}
