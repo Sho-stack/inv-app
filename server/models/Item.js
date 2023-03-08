@@ -12,13 +12,6 @@ const Item = db.define("item", {
     },
     image: {
         type: Sequelize.STRING,
-    },
-    categoryId: {
-        type: Sequelize.STRING,
-        references: {
-            model: 'categories',
-            key: 'id'
-          }
     }
 });
 

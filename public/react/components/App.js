@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Navbar, Nav, Button,} from 'react-bootstrap';
+import { Container, Navbar, Nav, Button, NavDropdown, Form } from 'react-bootstrap';
 import { ItemList } from './ItemList';
 
 // import and prepend the api url to any fetch calls
@@ -14,6 +14,8 @@ export const App = () => {
 
 const [allItems, setAllItems] = useState([]);
 const [allCategories, setAllCategories] = useState([]);
+const [allUsers, setAllUsers] = useState([]);
+const [user, setUser] = useState(null);
 const [item, setItem] = useState(null);
 
 console.log('item: ' + item)
@@ -28,7 +30,12 @@ const handleCartShow = () => setShowCartModal(true);
 {/* MODAL CONTROLS */}
 const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
-const handleShow = () => setShow(true);
+const handleShow = () => {setShow(true);}
+
+const handleAddNewItem = () => {
+	setItem(null);
+	handleShow();
+}
 
 const handleEdit = (item) => {
 	if (item) {
@@ -36,6 +43,8 @@ const handleEdit = (item) => {
 	  setShow(true);
 	}
   }
+
+
 
 useEffect(() => {
 	fetch(`${apiURL}/categories`)
@@ -53,6 +62,32 @@ useEffect(() => {
 		});
 }, []);
 
+useEffect(() => {
+	fetch(`${apiURL}/users`)
+		.then((response) => response.json())
+		.then((data) => {
+			setAllUsers(data);
+			setUser(data[0])
+		});
+}, []);
+
+console.log(allUsers)
+
+useEffect(() => {
+	fetch(`${apiURL}/users`)
+		.then((response) => response.json())
+		.then((data) => {
+			setAllUsers(data);
+			setUser(data[0])
+		});
+}, []);
+
+console.log(allUsers)
+
+// Function to add an item to the cart
+const addToCart = (item) => {
+    setCartItems([...cartItems, item]);
+}
 
 // Function to add an item to the cart
 const addToCart = (item) => {
@@ -65,17 +100,31 @@ const removeFromCart = (item) => {
 }
 
 
-	return (<>
-		<Navbar bg="dark" variant="dark">
-			<Container>
-			<Navbar.Brand >INVENTORY MANAGER</Navbar.Brand>
-			<Nav className="me-auto">
-				{/* <Nav.Link href="#home">Add new</Nav.Link> */}
-				<Button variant="outline-light" onClick={handleShow}>
-					Add new Item
-				</Button>
-				{/* <Nav.Link href="#features">Features</Nav.Link>
-				<Nav.Link href="#pricing">Pricing</Nav.Link> */}
+return (<>
+
+	<Navbar variant="dark" bg="dark text-light" expand="md">
+		<Container fluid>
+			<Navbar.Brand href="#home">INVENTORY MANAGER</Navbar.Brand>
+
+			<Navbar.Toggle aria-controls="navbar-dark-example" />
+			<Navbar.Collapse id="navbar-dark-example">    
+			<Button variant="outline-light" onClick={handleAddNewItem}>
+						Add new Item
+			</Button>      
+			<Nav  className="ms-auto">
+			LOGGED IN AS: &nbsp;
+			<Form.Select 
+				aria-label="Default select example" 
+				className="w-auto bg-dark text-light"
+				onChange={(e) => {setUser(allUsers[e.target.value])}}
+			>
+
+				{allUsers.map((user, index) => {
+					return <>
+				<option value={index}>{user.name}</option>
+					</>
+				})}
+			</Form.Select>
 				<Button variant="outline-light" onClick={handleCartShow}>
 					View your Cart
 				</Button>

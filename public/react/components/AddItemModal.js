@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, ListGroup, Container, Navbar, Nav, Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 
 export const AddItemModal = ({ allItems, allCategories, show, handleClose, apiURL, setAllItems, item }) => {
     
@@ -11,16 +11,12 @@ export const AddItemModal = ({ allItems, allCategories, show, handleClose, apiUR
 
 
     useEffect(() => {
-        if (item) {
-            setName(item.name);
-            setDescription(item.description);
-            setPrice(item.price);
-            setImage(item.image);
-            setCategoryId(item.categoryId);
-        } else {
-            setCategoryId(allCategories[0]);
-        }
-    }, [item, allCategories]);
+        setName(item ? item.name : '');
+        setDescription(item ? item.description : '');
+        setPrice(item ? item.price : '');
+        setImage(item ? item.image : '');
+        setCategoryId(item ? item.categoryId : '1');
+      }, [item, allCategories]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
