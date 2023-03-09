@@ -3,7 +3,7 @@ import { Modal, Table } from 'react-bootstrap';
 
 export const OrdersModal = ({ show, handleClose, orders }) => {
   return (
-    <Modal show={show} onHide={handleClose} className='wideModal'>
+    <Modal show={show} onHide={handleClose} className='modal-xl'>
       <Modal.Header closeButton>
         <Modal.Title>All Orders</Modal.Title>
       </Modal.Header>

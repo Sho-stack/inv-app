@@ -151,7 +151,7 @@ return (<>
 			orders={orders}
 			setOrders={setOrders}
 		/>	
-	</main>
+
 		<ItemModal   
 			allItems={allItems} 
 			allCategories={allCategories} 
@@ -187,4 +187,6 @@ return (<>
 			orders={orders}
 			setOrders={setOrders}
 		/>
+
+		</main>
 </>)}

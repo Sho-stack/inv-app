@@ -52,7 +52,7 @@ export const ItemModal = ({ allItems, allCategories, show, handleClose, apiURL, 
     };
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} className='modal-xl'>
             <Modal.Header closeButton>
                 <Modal.Title>{item ? 'Edit Item' : 'Add new Item'}</Modal.Title>
             </Modal.Header>

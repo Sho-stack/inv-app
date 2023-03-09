@@ -32,9 +32,13 @@ main {
     white-space: nowrap;
   }
 
-.basketModal {
+/* .basketModal {
     width: 80%;
-    max-width: 800px;
+    min-width: 800px;
     margin:auto;
     margin-top: 64px;
-}
+} */
+
+.modal {
+    min-width: 800px;
+  }

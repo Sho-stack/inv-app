@@ -61,7 +61,7 @@ export const BasketModal = ({ basket, setBasket, allItems, allCategories, show, 
 
 
     return ( <>
-            <Modal show={show} onHide={handleClose}  class='basketModal'>
+            <Modal show={show} onHide={handleClose}  className='modal-xl'>
             <Modal.Header closeButton>
                 <Modal.Title>Your Basket</Modal.Title>
             </Modal.Header>
