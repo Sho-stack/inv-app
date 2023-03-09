@@ -6,6 +6,8 @@ import { ItemList } from './ItemList';
 import apiURL from '../api';
 import { ItemModal } from './ItemModal.js';
 import { BasketModal } from './BasketModal';
+import { OrdersModal } from './OrdersModal';
+
 
 export const App = () => {
 
@@ -16,6 +18,8 @@ const [user, setUser] = useState(null);
 const [item, setItem] = useState(null);
 
 const [basket, setBasket] = useState([]);
+
+const [orders, setOrders] = useState([]);
 
 console.log(basket)
 
@@ -28,6 +32,10 @@ const [showBasketModal, setShowBasketModal] = useState(false);
 const handleBasketModalClose = () => setShowBasketModal(false);
 const handleBasketModalShow = () => {setShowBasketModal(true);}
 
+const [showOrdersModal, setShowOrdersModal] = useState(false);
+const handleOrdersModalClose = () => setShowOrdersModal(false);
+const handleOrdersModalShow = () => {setShowOrdersModal(true);}
+
 const openItemModal = () => {
 	setItem(null);
 	handleItemModalShow();
@@ -35,6 +43,10 @@ const openItemModal = () => {
 
 const openBasketModal = () => {
 	handleBasketModalShow();
+}
+
+const openOrdersModal = () => {
+	handleOrdersModalShow();
 }
 
 const handleEdit = (item) => {
@@ -78,6 +90,14 @@ useEffect(() => {
 		});
 }, []);
 
+useEffect(() => {
+	fetch(`${apiURL}/orders`)
+	  .then((response) => response.json())
+	  .then((data) => {
+		setOrders(data);
+	  });
+  }, []);
+
 console.log(allUsers)
 
 
@@ -97,6 +117,9 @@ return (<>
 			<Button variant="outline-light" onClick={openBasketModal}>
 						Show Basket
 			</Button> 
+			<Button variant="outline-light" onClick={openOrdersModal}>
+						Show Orders
+			</Button> 
 			<Nav className="ms-auto">
 
 					LOGGED IN AS: &nbsp;&nbsp;
@@ -114,18 +137,7 @@ return (<>
 		</Container>
     </Navbar>
 
-	<BasketModal 
-		basket={basket}
-		setBasket={setBasket}
-		allItems={allItems} 
-		allCategories={allCategories} 
-		show={showBasketModal} 
-		handleClose={handleBasketModalClose} 
-		apiURL={apiURL} 
-		setAllItems={setAllItems} 
-		item={item} 
-		user={user}
-		/>
+
 
 	<main>	
 		<ItemList  
@@ -135,7 +147,10 @@ return (<>
 			apiURL={apiURL} 
 			handleEdit={handleEdit} 
 			user={user}
-			handleAddToBasket={handleAddToBasket}/>			
+			handleAddToBasket={handleAddToBasket}
+			orders={orders}
+			setOrders={setOrders}
+		/>	
 	</main>
 		<ItemModal   
 			allItems={allItems} 
@@ -144,6 +159,32 @@ return (<>
 			handleClose={handleItemModalClose} 
 			apiURL={apiURL} 
 			setAllItems={setAllItems} 
-			item={item}/> 
+			item={item}
+			/> 
+		
+		<BasketModal 
+			basket={basket}
+			setBasket={setBasket}
+			allItems={allItems} 
+			allCategories={allCategories} 
+			show={showBasketModal} 
+			handleClose={handleBasketModalClose} 
+			apiURL={apiURL} 
+			setAllItems={setAllItems} 
+			item={item} 
+			user={user}
+		/>
 
+		<OrdersModal
+			allItems={allItems}
+			allCategories={allCategories}
+			show={showOrdersModal}
+			handleClose={handleOrdersModalClose}
+			apiURL={apiURL}
+			setAllItems={setAllItems}
+			item={item}
+			user={user}
+			orders={orders}
+			setOrders={setOrders}
+		/>
 </>)}

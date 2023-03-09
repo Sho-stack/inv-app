@@ -10,10 +10,12 @@ Item.belongsTo(Category, { foreignKey: 'categoryId' });
 User.hasMany(Order);
 Order.belongsTo(User);
 
-Order.belongsToMany(Item, { through: OrderItem });
-Item.belongsToMany(Order, { through: OrderItem });
+Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 
-OrderItem.belongsTo(Order);
-OrderItem.belongsTo(Item);
+Item.hasMany(OrderItem, { foreignKey: 'itemId' });
+OrderItem.belongsTo(Item, { foreignKey: 'itemId' });
+
+
 
 module.exports = { User, Item, Category, Order, OrderItem }

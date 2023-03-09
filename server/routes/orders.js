@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { Order } = require("../models/index");
-const { OrderItem } = require("../models/index");
+const { Order, OrderItem, Item } = require("../models/index");
 
 router.get('/', async (req, res) => {
-    const orders = await Order.findAll();
-    res.send(orders);
-    });
+  const orders = await Order.findAll({
+      include: [
+          {
+              model: OrderItem,
+              include: [Item],
+          },
+      ],
+  });
+  res.send(orders);
+});
 
 //get all order of a user
 router.get('/:id', async (req, res) => {
@@ -22,7 +28,8 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
       const { userId, items } = req.body;
-
+      console.log('req.body:')
+      console.log(req.body)
       if (!items || items.length === 0) {
         throw new Error('No items provided');
       }
@@ -36,7 +43,7 @@ router.post('/', async (req, res) => {
             itemId: item[0].id,
             quantity: item[1],
             price: item[0].price,
-          };
+        };        
           return await OrderItem.create(orderItem);
         })
       );
